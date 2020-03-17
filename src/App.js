@@ -44,11 +44,11 @@ class App extends React.Component{
     //close subscription
     this.unsubscribeFromAuth();
   }
-
+  // redux now allows us to remove header currentUSer.. currentUser={this.state.currentUser
   render(){
     return (
       <div>
-        <Header currentUser={this.state.currentUser}/>
+        <Header/>
         <Switch>
           <Route exact path='/' component={HomePage}/>
           <Route exact path='/shop' component={ShopPage}/>
