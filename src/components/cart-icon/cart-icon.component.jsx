@@ -20,6 +20,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const mapStateToProps = ({cart: {cartItems}}) => ({
+    //rerenders everytime state changes. not good for performance. Use Memorizattion to cache
     itemCount: cartItems.reduce(
         (accumalatedQuantity, cartItem) => accumalatedQuantity + cartItem.quantity
     , 0
