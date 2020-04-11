@@ -1,22 +1,34 @@
-import {UserActionTypes} from './user.types';
+import UserActionTypes from './user.types';
 
 const INITIAL_STATE = {
-    currentUser: null
-}
+  currentUser: null,
+  error: null
+};
 
-//ES6 can pass value if state undefined
 const userReducer = (state = INITIAL_STATE, action) => {
-    switch (action.type){
-        case UserActionTypes.SET_CURRENT_USER:
-            return {
-                ...state,
-                currentUser: action.payload
-            }
-
-        default:
-            return state;
-
-    }
-}
+  switch (action.type) {
+    case UserActionTypes.SIGN_IN_SUCCESS:
+        console.log('sign in',action.payload)
+      return {
+        ...state,
+        currentUser: action.payload,
+        error: null
+      };
+    case UserActionTypes.SIGN_OUT_SUCCESS:
+      return {
+        ...state,
+        currentUser: null,
+        error: null
+      };
+    case UserActionTypes.SIGN_IN_FAILURE:
+    case UserActionTypes.SIGN_OUT_FAILURE:
+      return {
+        ...state,
+        error: action.payload
+      };
+    default:
+      return state;
+  }
+};
 
 export default userReducer;
