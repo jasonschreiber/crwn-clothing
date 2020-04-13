@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Switch, Route, Redirect} from 'react-router-dom'
 import {connect} from 'react-redux';
 import {createStructuredSelector} from 'reselect'
@@ -15,52 +15,34 @@ import {selectCurrentUser} from './redux/user/user.selectors';
 import {checkUserSession} from './redux/user/user.actions';
 
 
-class App extends React.Component{
-  //Not needed anymore with redux dispatcher
-  // constructor(){
-  //   super();
-  //   this.state={
-  //     currentUser: null
-  //   }
-  // }
+const App = ({checkUserSession, currentUser}) =>{
 
-  //stop memory leak
-  unsubscribeFromAuth = null;
-
-  componentDidMount(){
-    const {checkUserSession} = this.props;
+  useEffect(() => {
     checkUserSession();
-  }
-
-  componentWillUnmount(){
-    //close subscription
-    this.unsubscribeFromAuth();
-  }
+  }, [checkUserSession]);
   // redux now allows us to remove header currentUSer.. currentUser={this.state.currentUser
-  render(){
-    return (
-      <div>
-        <Header/>
-        <Switch>
-          <Route exact path='/' component={HomePage}/>
-          <Route path='/shop' component={ShopPage}/>
-          <Route exact path='/checkout' component={CheckoutPage}/>
-          {console.log(this.props.currentUser)}
-          <Route 
-            exact 
-            path='/signin' 
-            render={() => 
-              this.props.currentUser ? (
-                <Redirect to='/'/>
-                ) : (
-                  <SignInAndSignUpPage/>
-                  )
-                }
-            />
-        </Switch>
-      </div>
-    );
-  }
+  return (
+    <div>
+      <Header/>
+      <Switch>
+        <Route exact path='/' component={HomePage}/>
+        <Route path='/shop' component={ShopPage}/>
+        <Route exact path='/checkout' component={CheckoutPage}/>
+        {console.log(currentUser)}
+        <Route 
+          exact 
+          path='/signin' 
+          render={() => 
+            currentUser ? (
+              <Redirect to='/'/>
+              ) : (
+                <SignInAndSignUpPage/>
+                )
+              }
+          />
+      </Switch>
+    </div>
+  );
 }
 
 const mapStateToProps = createStructuredSelector({
